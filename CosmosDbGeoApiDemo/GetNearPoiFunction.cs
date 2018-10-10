@@ -49,8 +49,6 @@ namespace CosmosDbGeoApiDemo
                 var query = client.CreateDocumentQuery<PoiDto>(collectionUri, new FeedOptions { EnableCrossPartitionQuery = true })
                     .Where(p => p.Location.Distance(inputPoint) <= withInDistance).AsDocumentQuery();
 
-                
-
                 var ret = new List<PoiDto>();
 
                 while (query.HasMoreResults)
@@ -60,7 +58,7 @@ namespace CosmosDbGeoApiDemo
                         ret.Add(poi);
                     }
                 }
-
+                log.LogInformation($"get {ret.Count} result(s).");
                 return new OkObjectResult(ret);
             }
             catch (Exception ex)
