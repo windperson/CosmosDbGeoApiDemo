@@ -8,6 +8,9 @@ namespace CosmosDbGeoApiDemo.Dto
 {
     public class PoiDto
     {
+        [JsonProperty("id")]
+        public Guid Id { get; set; }
+
         [JsonProperty("poi_id")]
         public string PoiId { get; set; }
 

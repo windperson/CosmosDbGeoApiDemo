@@ -20,8 +20,8 @@ namespace CosmosDbGeoApiDemo
 {
     public static class GetNearPoiFunction
     {
-        private const string CosmosDBname = @"BasePointOfInterest";
-        private const string CosmosDBcollectionName = @"PointData";
+        private const string CosmosDBname = @"base-points";
+        private const string CosmosDBcollectionName = @"base-poi";
         
         [FunctionName("GetNearPOI")]
         public static async Task<IActionResult> Run(
@@ -50,6 +50,7 @@ namespace CosmosDbGeoApiDemo
                     .Where(p => p.Location.Distance(inputPoint) <= withInDistance)
                     .Select(o => new PoiDto
                     {
+                        Id = o.Id,
                         PoiId = o.PoiId,
                         Location = o.Location,
                         Distance = o.Location.Distance(inputPoint),
@@ -64,6 +65,7 @@ namespace CosmosDbGeoApiDemo
                     {
                         ret.Add(poi);
                     }
+                    log.LogInformation("Doing another fetch");
                 }
                 log.LogInformation($"get {ret.Count} result(s).");
                 return new OkObjectResult(ret.OrderBy(r=>r.Distance).ToArray());
